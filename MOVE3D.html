@@ -1,0 +1,162 @@
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			body{
+				background: #000 
+			}
+			#box{
+				width: 133px;
+				height: 200px;
+				position: relative;
+				margin:200px auto;
+				transform-style: preserve-3d;
+				transform: perspective(800px) /*rotateX(30deg);*/;
+				border: 1px solid red;mo
+				background: url(img/2.jpg);
+				transition:1s linear;
+			}
+			#box img{
+				display: block;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			/*	animation: do 10s infinite alternate linear;*/
+				-webkit-box-reflect:below 10px -webkit-linear-gradient(top,rgba(0,0,0,0) 50%,rgba(0,0,0,0.7) 100%);
+				cursor: pointer;
+			}
+			/*#box img:nth-child(1){
+				transform: rotateY(0deg) translateZ(300px);
+			}
+			#box img:nth-child(2){
+				transform: rotateY(36deg) translateZ(300px);
+			}
+			#box img:nth-child(3){
+				transform: rotateY(72deg) translateZ(300px);
+			}
+			#box img:nth-child(4){
+				transform: rotateY(108deg) translateZ(300px);
+			}
+			#box img:nth-child(5){
+				transform: rotateY(144deg) translateZ(300px);
+			}
+			#box img:nth-child(6){
+				transform: rotateY(180deg) translateZ(300px);
+			}
+			#box img:nth-child(7){
+				transform: rotateY(216deg) translateZ(300px);
+			}
+			#box img:nth-child(8){
+				transform: rotateY(252deg) translateZ(300px);
+			}
+			#box img:nth-child(9){
+				transform: rotateY(288deg) translateZ(300px);
+			}
+			#box img:nth-child(10){
+				transform: rotateY(324deg) translateZ(300px);
+			}*/
+			/*@keyframes move{
+				from{
+					transform: rotateX(0deg);
+					}
+				to{
+					transform: rotateY(36deg);				}
+			}*/
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<img src="img/1.jpg" alt="" />
+			<img src="img/2.jpg" alt="" />
+			<img src="img/3.jpg" alt="" />
+			<img src="img/4.jpg" alt="" />
+			<img src="img/5.jpg" alt="" />
+			<img src="img/6.jpg" alt="" />
+			<img src="img/1.jpg" alt="" />
+			<img src="img/2.jpg" alt="" />
+			<img src="img/3.jpg" alt="" />
+			<img src="img/4.jpg" alt="" />
+		</div>
+		<script type="text/javascript">
+			var box = document.getElementById('box');
+			var imgs = document.getElementsByTagName('img');
+			var length = imgs.length;
+			var dexY = 360/length;
+			var stepX = null;
+			var stepY = null;
+			var rx= null;
+			var ry=null;
+			var num = 0;
+			for(var i=0;i<length;i++){
+				var str = "rotateY("+dexY*i+"deg) translateZ(300px)"
+				cssTransform(imgs[i],str);
+				
+			}
+				//var num = 0
+			for (var i = 0; i <length; i++) {
+			
+				box.onclick = function(){
+				num++;
+				//alert(num)
+				box.style.transform = "perspective(800px) rotateY("+num*36+"deg)"
+			}
+			}
+			var timer 
+			clearInterval(timer);
+			 timer = setInterval(box.onclick,2000)
+			box.onmouseover = function(){
+				clearInterval(timer)
+				//timer = setInterval(box.onclick,1000)
+			}
+			box.onmouseout = function(){
+				clearInterval(timer)
+				timer = setInterval(box.onclick,2000)
+			}
+			
+			
+			
+			document.ondragstart = function(){
+				return false;
+			}
+			document.onmousedown = function(e){
+				//鼠标按下时的坐标点
+				var mousX = e.clientX;
+				var mousY = e.clientY;
+				document.onmousemove = function(e){
+					//鼠标移动时的坐标点
+					var mouseX = e.clientX;
+					var mouseY = e.clientY;
+					
+					//计算鼠标移动和按下的差值
+					stepX = mouseX - mousX;
+					stepY = mouseY - mousY;
+					
+					//由于上下滑动时候是在影响X轴旋转
+					rx -=stepY*0.1;
+					ry +=stepX*0.1;
+					
+					var str = "perspective(800px) rotateX("+rx+"deg) rotateY("+ry+"deg)"
+					cssTransform(box,str);
+					mousX = mouseX;
+					mousY = mouseY;
+				}
+			}
+			
+			document.onmouseup = function(){
+				document.onmousemove = null;
+			}
+			//兼容代码
+			function cssTransform(obj,val){
+				var data = ["o","webkit","ms","moz",""];
+				var length = data.length
+				for(var i=0;i<length;i++){
+					obj.style[data[i]+"Transform"] = val;
+				}
+			}
+		</script>
+		
+	</body>
+</html>
